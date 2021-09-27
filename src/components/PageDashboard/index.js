@@ -5,13 +5,11 @@ import { Redirect } from "react-router";
 import TechsCard from "../TechsCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 export default function PageDashboard({ authenticated }) {
       
       const[input, setInput] = useState('')
       const [nivel, setNivel] = useState("");
       const[tecs, setTecs] = useState([])
-
       const status = [
         {
           value: 1,
@@ -46,11 +44,15 @@ export default function PageDashboard({ authenticated }) {
               setTecs(techs)
           })
       },[tecs])
-     
+
+     const logout = () =>{
+        localStorage.clear()
+       window.location.reload()
+     }
       if (!authenticated) {
         return <Redirect to="/login" />;
       }
-
+      
       return (
         <>
           <Container>
@@ -89,6 +91,16 @@ export default function PageDashboard({ authenticated }) {
               >
                 Adicionar
               </Button>
+
+              <Button
+                variant="contained"
+                color="secondary"
+                size="small"
+                id="btn"
+                onClick={logout}
+              >
+                Sair
+              </Button>
             </form>
           </Container>
           
@@ -97,6 +109,7 @@ export default function PageDashboard({ authenticated }) {
                     return <TechsCard key={tec.id} title={tec.title} status={tec.status} ids={tec.id} />
                 })}
           </TechsContainer>
+
         </>
     )
 }
